@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Happy 20th Birthday, Palak! 🎁</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #f7f3e8; /* Soft background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevent scrollbars from animation */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            height: 400px;
+            position: relative;
+            perspective: 1000px; /* For a 3D transform effect */
+        }
+
+        /* Layer Styling (Stacked) */
+        .gift-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            /* Transition for the 'unwrapped' effect */
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Specific Wrapper Designs */
+        .wrapper-1 {
+            background-color: #ffccff; 
+            background-image: radial-gradient(circle, #ffccff, #ff99ff);
+            color: #4a004a;
+            z-index: 5; /* Adjusted z-index */
+        }
+
+        .wrapper-2 {
+            background-color: #ff9999; 
+            background-image: radial-gradient(circle, #ff9999, #ff6666);
+            color: white;
+            z-index: 4; /* Adjusted z-index */
+        }
+
+        .wrapper-3 {
+            background-color: #99ff99; 
+            background-image: linear-gradient(to right, #99ff99, #66ff66);
+            color: #004d00;
+            z-index: 3; /* Adjusted z-index */
+        }
+
+        /* --- NEW WRAPPERS --- */
+        .wrapper-4 {
+            background-color: #a0d2eb; 
+            background-image: linear-gradient(to bottom, #a0d2eb, #74b9ff);
+            color: #003366;
+            z-index: 2; /* New layer */
+        }
+
+        .wrapper-5 {
+            background-color: #ffda79; 
+            background-image: radial-gradient(circle, #ffda79, #ffb142);
+            color: #5c3d00;
+            z-index: 1; /* New layer */
+        }
+        /* --- END NEW WRAPPERS --- */
+
+        /* Text Styles */
+        .initial-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        .message-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            line-height: 1.5;
+            padding: 0 15px;
+        }
+
+        /* Final Message Box - Starts hidden/smaller */
+        .final-box {
+            height: 600px;
+            background-color: #ffffff;
+            color: #333;
+            cursor: default;
+            box-shadow: 0 0 30px rgba(255, 100, 150, 0.8);
+            display: flex; 
+            flex-direction: column;
+            z-index: 6; /* Highest z-index */
+            transform: scale(0.8); /* Start smaller */
+            opacity: 0;
+            transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+            justify-content: flex-start; /* Align content from top */
+            padding-top: 30px; /* More padding at top */
+        }
+
+        .final-heading {
+            font-family: 'Pacifico', cursive;
+            font-size: 2em; /* Slightly smaller to fit photo */
+            color: #ff6699;
+            margin-bottom: 15px;
+        }
+
+        .childhood-photo {
+            max-width: 80%;
+            max-height: 300px; /* Limit photo height */
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: contain; /* Ensure image fits without cropping */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .final-text {
+            margin: 10px 0 15px; /* Adjust margin */
+            font-size: 1em; /* Slightly smaller font for more text space */
+            line-height: 1.4;
+        }
+
+        .signature {
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: auto; /* Push signature to the bottom */
+        }
+
+        /* THE ANIMATION (When the 'unwrapped' class is added) */
+        .unwrapped {
+            /* Makes it disappear and fly away with rotation */
+            opacity: 0 !important;
+            transform: translate(-500px, 500px) rotateX(180deg) rotateZ(540deg) scale(0.1) !important;
+            pointer-events: none; /* Make sure it can't be clicked again */
+        }
+
+        /* Animation for the final box fading in */
+        .final-visible {
+            opacity: 1;
+            transform: scale(1); /* Expands to full size */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="layer-1" class="gift-layer wrapper-1">
+            <h1 class="initial-text">Happy Birthday Palakkk!!!!!</h1>
+            <p>Let me tell you what you mean to me!! Come with me... (Tap Me)</p>
+        </div>
+
+        <div id="layer-2" class="gift-layer wrapper-2 hidden">
+            <p class="message-text">You are my exception when i tell people, "ye baat mai kisiko nahi bataunga". 
+                Tere hone se kabhi kami nahi hoti ek container ki jisme mai apni baate rakh saku.. mann me aawaz rehti hai palak hai naa!!! ✨</p>
+        </div>
+
+        <div id="layer-3" class="gift-layer wrapper-3 hidden">
+            <h2 class="message-text">You are my mood fixer, Jab bhi mood kharab hota hai to terese baat karna is the easiest fix!!,
+                You are the best person to gossip with (after me) and you are amazing 🌠!! 
+            </h2>
+        </div>
+        
+        <div id="layer-4" class="gift-layer wrapper-4 hidden">
+            <h2 class="message-text">You are a testcase for my humor! No matter how good a joke is, it can't make you laugh!!!!
+                and your humor level is unmatched (lower scale).. May God help you in getting jokes...😂</h2>
+        </div>
+        
+        <div id="layer-5" class="gift-layer wrapper-5 hidden">
+            <h2 class="message-text">You are the best drinking partner I could ever ask for! You take off the requirement of remaining conscious!!
+                Ballantines se leke Blue Label tak sab saath piyenge bhyii!!! 🥂
+            </h2>
+        </div>
+
+        <div id="final-message" class="gift-layer final-box hidden">
+            <h1 class="final-heading">Happy 20th Birthday, Palak! 🎂</h1>
+            <img src="ph.jpg" alt="Childhood photo of Palak (feeding) and Harsh (eating)" class="childhood-photo">
+            <p class="final-text">From day 1 to forever!! May you always stay this coool, and get everything you desiree!! Happy 20th Favourite!!!</p>
+            <p class="signature">To- My Locker, My Magician and Obv My Favourite</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle the unwrapping logic for any layer
+        function unwrapLayer(currentLayerId, nextLayerId) {
+            const currentLayer = document.getElementById(currentLayerId);
+            const nextLayer = document.getElementById(nextLayerId);
+
+            if (currentLayer) {
+                // Start the CSS animation by adding the 'unwrapped' class
+                currentLayer.classList.add('unwrapped');
+                currentLayer.style.cursor = 'default';
+
+                // Wait for the CSS transition (1000ms or 1s) to finish
+                setTimeout(() => {
+                    // Completely hide the current layer
+                    currentLayer.style.display = 'none';
+                    
+                    // Show the next layer
+                    if (nextLayer) {
+                        nextLayer.classList.remove('hidden');
+                        
+                        // If it's the final message, apply the special fadeIn animation
+                        if (nextLayerId === 'final-message') {
+                            // Slight delay before starting the final transition
+                            setTimeout(() => {
+                                nextLayer.classList.add('final-visible');
+                            }, 50); 
+                        }
+                    }
+                }, 1000); 
+            }
+        }
+
+        // Set up the click handlers for each layer when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Click on Layer 1 reveals Layer 2
+            document.getElementById('layer-1').addEventListener('click', () => {
+                unwrapLayer('layer-1', 'layer-2');
+            });
+
+            // Click on Layer 2 reveals Layer 3
+            document.getElementById('layer-2').addEventListener('click', () => {
+                unwrapLayer('layer-2', 'layer-3');
+            });
+
+            // Click on Layer 3 reveals Layer 4
+            document.getElementById('layer-3').addEventListener('click', () => {
+                unwrapLayer('layer-3', 'layer-4');
+            });
+
+            // Click on Layer 4 reveals Layer 5
+            document.getElementById('layer-4').addEventListener('click', () => {
+                unwrapLayer('layer-4', 'layer-5');
+            });
+            
+            // Click on Layer 5 reveals the Final Message
+            document.getElementById('layer-5').addEventListener('click', () => {
+                unwrapLayer('layer-5', 'final-message');
+            });
+        });
+    </script>
+</body>
+</html>
