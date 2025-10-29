@@ -7,162 +7,228 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Base Styles */
-        body {
-            background-color: #f7f3e8; /* Soft background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            overflow-y: auto; /* Prevent scrollbars from animation */
-        }
+/* Base Styles */
+body {
+    background-color: #f7f3e8; /* Soft background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    /* IMPORTANT: Changed overflow to allow balloons */
+    overflow: hidden; 
+}
 
-        .container {
-            width: 90%;
-            max-width: 600px;
-            min-height: 400px;
-            position: relative;
-            perspective: 1000px; /* For a 3D transform effect */
-        }
+/* --- NEW: Balloon Container --- */
+#balloon-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0; /* Behind the card */
+    pointer-events: none; /* Can't click on balloons */
+}
 
-        /* Layer Styling (Stacked) */
-        .gift-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            /* Transition for the 'unwrapped' effect */
-            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
-        }
+/* --- NEW: Balloon Styling & Animation --- */
+.balloon {
+    width: 50px;
+    height: 65px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -100px; /* Start off-screen */
+    opacity: 0.8;
+    animation: rise 10s linear;
+}
 
-        .hidden {
-            display: none !important;
-        }
+/* Balloon string */
+.balloon::after {
+    content: '';
+    position: absolute;
+    top: 65px; /* Bottom of balloon */
+    left: 24px; /* Center */
+    width: 2px;
+    height: 50px;
+    background-color: #555;
+    opacity: 0.5;
+}
 
-        /* Specific Wrapper Designs */
-        .wrapper-1 {
-            background-color: #ffccff; 
-            background-image: radial-gradient(circle, #ffccff, #ff99ff);
-            color: #4a004a;
-            z-index: 5; /* Adjusted z-index */
-        }
+@keyframes rise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.8;
+    }
+    25% { 
+        transform: translateX(40px); /* Sway */
+    }
+    50% { 
+        transform: translateX(-40px); /* Sway */
+    }
+    75% { 
+        transform: translateX(40px); /* Sway */
+    }
+    100% {
+        transform: translateY(-120vh) translateX(-40px); /* Go up and off-screen */
+        opacity: 0;
+    }
+}
+/* --- End Balloon CSS --- */
 
-        .wrapper-2 {
-            background-color: #ff9999; 
-            background-image: radial-gradient(circle, #ff9999, #ff6666);
-            color: white;
-            z-index: 4; /* Adjusted z-index */
-        }
 
-        .wrapper-3 {
-            background-color: #99ff99; 
-            background-image: linear-gradient(to right, #99ff99, #66ff66);
-            color: #004d00;
-            z-index: 3; /* Adjusted z-index */
-        }
+.container {
+    width: 90%;
+    max-width: 600px;
+    height: 400px;
+    position: relative;
+    perspective: 1000px; 
+    /* NEW: Make sure container is in front of balloons */
+    z-index: 2;
+}
 
-        /* --- NEW WRAPPERS --- */
-        .wrapper-4 {
-            background-color: #a0d2eb; 
-            background-image: linear-gradient(to bottom, #a0d2eb, #74b9ff);
-            color: #003366;
-            z-index: 2; /* New layer */
-        }
+/* Layer Styling (Stacked) */
+.gift-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
 
-        .wrapper-5 {
-            background-color: #ffda79; 
-            background-image: radial-gradient(circle, #ffda79, #ffb142);
-            color: #5c3d00;
-            z-index: 1; /* New layer */
-        }
-        /* --- END NEW WRAPPERS --- */
+.hidden {
+    display: none !important;
+}
 
-        /* Text Styles */
-        .initial-text {
-            font-family: 'Pacifico', cursive;
-            font-size: 2.5em;
-            margin-bottom: 5px;
-        }
+/* Specific Wrapper Designs */
+.wrapper-1 {
+    background-color: #ffccff;  
+    background-image: radial-gradient(circle, #ffccff, #ff99ff);
+    color: #4a004a;
+    z-index: 5; 
+}
 
-        .message-text {
-            font-size: 1.2em;
-            font-weight: 600;
-            line-height: 1.5;
-            padding: 0 15px;
-        }
+.wrapper-2 {
+    background-color: #ff9999;  
+    background-image: radial-gradient(circle, #ff9999, #ff6666);
+    color: white;
+    z-index: 4;
+}
 
-        /* Final Message Box - Starts hidden/smaller */
-        .final-box {
-            background-color: #ffffff;
-            color: #333;
-            cursor: default;
-            box-shadow: 0 0 30px rgba(255, 100, 150, 0.8);
-            display: flex; 
-            flex-direction: column;
-            z-index: 6; /* Highest z-index */
-            transform: scale(0.8); /* Start smaller */
-            opacity: 0;
-            transition: transform 1.5s ease-out, opacity 1.5s ease-out;
-            justify-content: flex-start; /* Align content from top */
-            padding-top: 30px; /* More padding at top */
-        }
+.wrapper-3 {
+    background-color: #99ff99;  
+    background-image: linear-gradient(to right, #99ff99, #66ff66);
+    color: #004d00;
+    z-index: 3;
+}
 
-        .final-heading {
-            font-family: 'Pacifico', cursive;
-            font-size: 2em; /* Slightly smaller to fit photo */
-            color: #ff6699;
-            margin-bottom: 15px;
-        }
+.wrapper-4 {
+    background-color: #a0d2eb;  
+    background-image: linear-gradient(to bottom, #a0d2eb, #74b9ff);
+    color: #003366;
+    z-index: 2; 
+}
 
-        .childhood-photo {
-            max-width: 80%;
-            max-height: 300px; /* Limit photo height */
-            border-radius: 10px;
-            margin-bottom: 20px;
-            object-fit: contain; /* Ensure image fits without cropping */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+.wrapper-5 {
+    background-color: #ffda79;  
+    background-image: radial-gradient(circle, #ffda79, #ffb142);
+    color: #5c3d00;
+    z-index: 1; 
+}
 
-        .final-text {
-            margin: 10px 0 15px; /* Adjust margin */
-            font-size: 1em; /* Slightly smaller font for more text space */
-            line-height: 1.4;
-        }
+/* Text Styles */
+.initial-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
 
-        .signature {
-            font-style: italic;
-            font-size: 0.9em /* Push signature to the bottom */
-        }
+.message-text {
+    font-size: 1.2em;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0 15px;
+}
 
-        /* THE ANIMATION (When the 'unwrapped' class is added) */
-        .unwrapped {
-            /* Makes it disappear and fly away with rotation */
-            opacity: 0 !important;
-            transform: translate(-500px, 500px) rotateX(180deg) rotateZ(540deg) scale(0.1) !important;
-            pointer-events: none; /* Make sure it can't be clicked again */
-        }
+/* --- FINAL BOX (FIXED) --- */
+.final-box {
+    height: 400px;
+    background-color: #ffffff;
+    color: #333;
+    cursor: default;
+    box-shadow: 0 0 30px rgba(255, 100, 150, 0.8);
+    display: flex;  
+    flex-direction: column;
+    z-index: 6; /* Highest z-index */
+    transform: scale(0.8); 
+    opacity: 0;
+    transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+    justify-content: flex-start; 
+    
+    padding: 15px 20px; 
+    overflow-y: auto; 
+    box-sizing: border-box; 
+}
 
-        /* Animation for the final box fading in */
-        .final-visible {
-            opacity: 1;
-            transform: scale(1); /* Expands to full size */
-        }
+.final-heading {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.8em; 
+    color: #ff6699;
+    margin-bottom: 10px; 
+    margin-top: 0;
+}
+
+.childhood-photo {
+    max-width: 80%;
+    max-height: 210px; 
+    border-radius: 10px;
+    margin-bottom: 10px; 
+    object-fit: contain; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    align-self: center; 
+}
+
+.final-text {
+    margin: 5px 0 10px; 
+    font-size: 0.9em;  
+    line-height: 1.4;
+}
+
+.signature {
+    font-style: italic;
+    font-size: 0.9em;
+    margin-top: auto; /* Pushes signature to the bottom */
+    padding-top: 10px; 
+}
+
+/* THE ANIMATION (When the 'unwrapped' class is added) */
+.unwrapped {
+    opacity: 0 !important;
+    transform: translate(-500px, 500px) rotateX(180deg) rotateZ(540deg) scale(0.1) !important;
+    pointer-events: none; 
+}
+
+/* Animation for the final box fading in */
+.final-visible {
+    opacity: 1;
+    transform: scale(1); 
+}
     </style>
 </head>
 <body>
+
+    <div id="balloon-container"></div>
 
     <div class="container">
         <div id="layer-1" class="gift-layer wrapper-1">
@@ -195,37 +261,74 @@
         <div id="final-message" class="gift-layer final-box hidden">
             <h1 class="final-heading">Happy 20th Birthday, Palak! 🎂</h1>
             <img src="ph.jpg" alt="Childhood photo of Palak (feeding) and Harsh (eating)" class="childhood-photo">
-            <p class="final-text">From day 1 to forever!! May you always stay this coool, and get everything you desiree!! Happy 20th Favourite!!! <br>
-            To- My Locker, My Magician and Obv My Favourite</p>
-            <!-- <p class="signature"></p> -->
+            <p class="final-text">From day 1 to forever!! May you always stay this coool, and get everything you desiree!! Happy 20th Favourite!!!</p>
+            <p class="signature">To- My Locker, My Magician and Obv My Favourite</p>
         </div>
     </div>
 
     <script>
+        // --- NEW: BALLOON CODE START ---
+        
+        const balloonContainer = document.getElementById('balloon-container');
+        const colors = ['#ff69b4', '#add8e6', '#90ee90', '#ffd700', '#f08080', '#c8a2c8'];
+        let balloonInterval; // To hold the interval
+
+        // Gets a random color from the array
+        function getRandomColor() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Creates one balloon
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            
+            // Set random properties
+            balloon.style.backgroundColor = getRandomColor();
+            balloon.style.left = Math.random() * 95 + 'vw'; // Start anywhere horizontally
+            balloon.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14 sec duration
+            
+            balloonContainer.appendChild(balloon);
+
+            // Remove balloon from DOM after animation finishes
+            balloon.addEventListener('animationend', () => {
+                balloon.remove();
+            });
+        }
+        
+        // Function to start the balloon effect
+        function startBalloonParty() {
+            // Create a balloon immediately, then every 800ms
+            if (!balloonInterval) { // Prevent multiple intervals
+                 balloonInterval = setInterval(createBalloon, 800); 
+            }
+        }
+        // --- NEW: BALLOON CODE END ---
+
+
         // Function to handle the unwrapping logic for any layer
         function unwrapLayer(currentLayerId, nextLayerId) {
             const currentLayer = document.getElementById(currentLayerId);
             const nextLayer = document.getElementById(nextLayerId);
 
             if (currentLayer) {
-                // Start the CSS animation by adding the 'unwrapped' class
                 currentLayer.classList.add('unwrapped');
                 currentLayer.style.cursor = 'default';
 
-                // Wait for the CSS transition (1000ms or 1s) to finish
                 setTimeout(() => {
-                    // Completely hide the current layer
                     currentLayer.style.display = 'none';
                     
-                    // Show the next layer
                     if (nextLayer) {
                         nextLayer.classList.remove('hidden');
                         
-                        // If it's the final message, apply the special fadeIn animation
                         if (nextLayerId === 'final-message') {
-                            // Slight delay before starting the final transition
                             setTimeout(() => {
                                 nextLayer.classList.add('final-visible');
+                                
+                                // --- !!! TRIGGER BALLOONS HERE !!! ---
+                                startBalloonParty(); 
+                                // --- !!! ---
+
                             }, 50); 
                         }
                     }
@@ -264,4 +367,3 @@
 </body>
 
 </html>
-
