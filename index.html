@@ -16,13 +16,13 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Prevent scrollbars from animation */
+            overflow-y: auto; /* Prevent scrollbars from animation */
         }
 
         .container {
             width: 90%;
             max-width: 600px;
-            height: 400px;
+            min-height: 400px;
             position: relative;
             perspective: 1000px; /* For a 3D transform effect */
         }
@@ -106,7 +106,6 @@
 
         /* Final Message Box - Starts hidden/smaller */
         .final-box {
-            height: 530px;
             background-color: #ffffff;
             color: #333;
             cursor: default;
